@@ -26,17 +26,17 @@ This is a complete example repository structure implementing the best practices 
 ## Repository Structure
 
 ```
+.github/
+├── ISSUE_TEMPLATE/
+│   ├── bug_report.md
+│   ├── feature_request.md
+│   └── config.yml
+├── workflows/
+│   ├── ci.yml
+│   └── deploy.yml
+├── CODEOWNERS
+└── pull_request_template.md
 client/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   ├── feature_request.md
-│   │   └── config.yml
-│   ├── workflows/
-│   │   ├── ci.yml
-│   │   └── deploy.yml
-│   ├── CODEOWNERS
-│   └── pull_request_template.md
 ├── src/
 │   ├── components/
 │   │   ├── userAuth/
@@ -108,25 +108,25 @@ client/
 * @team-lead @senior-dev
 
 # Frontend components
-/src/components/ @frontend-team @ui-designer
+/client/src/components/ @frontend-team @ui-designer
 
 # Backend services
-/src/services/ @backend-team
+/client/src/services/ @backend-team
 
 # Configuration files
-/config/ @devops-team @team-lead
+/client/config/ @devops-team @team-lead
 
 # CI/CD workflows
 /.github/workflows/ @devops-team
 
 # Documentation
-/docs/ @tech-writer @team-lead
+/client/docs/ @tech-writer @team-lead
 
 # Tests
-/tests/ @qa-team @backend-team @frontend-team
+/client/tests/ @qa-team @backend-team @frontend-team
 
 # Scripts
-/scripts/ @devops-team
+/client/scripts/ @devops-team
 ```
 
 ### `.github/workflows/ci.yml`
@@ -143,6 +143,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
+    defaults:
+      run:
+        working-directory: client
+    
     steps:
     - uses: actions/checkout@v3
     
@@ -151,6 +155,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: client/package-lock.json
     
     - name: Install dependencies
       run: npm ci
@@ -188,6 +193,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
+    defaults:
+      run:
+        working-directory: client
+    
     steps:
     - uses: actions/checkout@v3
     
@@ -196,6 +205,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: client/package-lock.json
     
     - name: Install dependencies
       run: npm ci

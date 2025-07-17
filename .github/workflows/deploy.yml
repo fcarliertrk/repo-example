@@ -1,0 +1,44 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    defaults:
+      run:
+        working-directory: client
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: client/package-lock.json
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build for production with Vite
+      run: npm run build:prod
+    
+    - name: Deploy to staging
+      run: npm run deploy:staging
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+    
+    - name: Run smoke tests
+      run: npm run test:smoke
+    
+    - name: Deploy to production
+      run: npm run deploy:prod
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
