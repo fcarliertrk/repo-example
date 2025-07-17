@@ -1,0 +1,53 @@
+app:
+  name: "Example Web App"
+  version: "1.0.0"
+  debug: true
+  log_level: "debug"
+  
+server:
+  host: "localhost"
+  port: 3000
+  cors_origins: 
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+  
+api:
+  base_url: "http://localhost:3000/api"
+  timeout: 30000
+  retries: 3
+  rate_limit:
+    window_ms: 900000  # 15 minutes
+    max_requests: 100
+    
+auth:
+  jwt_secret: "development_jwt_secret_key"
+  jwt_expires_in: "7d"
+  refresh_token_expires_in: "30d"
+  bcrypt_rounds: 10
+  
+security:
+  session_secret: "development_session_secret"
+  csrf_protection: false
+  helmet_config:
+    contentSecurityPolicy: false
+    
+features:
+  registration_enabled: true
+  email_verification: false
+  two_factor_auth: false
+  audit_logging: false
+  
+external_services:
+  email:
+    provider: "console"
+    from: "noreply@example.com"
+  
+  storage:
+    provider: "local"
+    local_path: "./uploads"
+    
+logging:
+  level: "debug"
+  format: "combined"
+  console: true
+  file: false

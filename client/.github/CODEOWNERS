@@ -1,0 +1,23 @@
+# Global owners
+* @team-lead @senior-dev
+
+# Frontend components
+/src/components/ @frontend-team @ui-designer
+
+# Backend services
+/src/services/ @backend-team
+
+# Configuration files
+/config/ @devops-team @team-lead
+
+# CI/CD workflows
+/.github/workflows/ @devops-team
+
+# Documentation
+/docs/ @tech-writer @team-lead
+
+# Tests
+/tests/ @qa-team @backend-team @frontend-team
+
+# Scripts
+/scripts/ @devops-team

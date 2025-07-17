@@ -1,0 +1,70 @@
+app:
+  name: "Example Web App"
+  version: "1.0.0"
+  debug: false
+  log_level: "info"
+  
+server:
+  host: "0.0.0.0"
+  port: ${PORT}
+  cors_origins: 
+    - ${FRONTEND_URL}
+  
+api:
+  base_url: "${API_BASE_URL}"
+  timeout: 30000
+  retries: 3
+  rate_limit:
+    window_ms: 900000  # 15 minutes
+    max_requests: 100
+    
+auth:
+  jwt_secret: "${JWT_SECRET}"
+  jwt_expires_in: "7d"
+  refresh_token_expires_in: "30d"
+  bcrypt_rounds: 12
+  
+security:
+  session_secret: "${SESSION_SECRET}"
+  csrf_protection: true
+  helmet_config:
+    contentSecurityPolicy: true
+    hsts: true
+    noSniff: true
+    frameguard: true
+    
+features:
+  registration_enabled: ${REGISTRATION_ENABLED}
+  email_verification: true
+  two_factor_auth: ${TWO_FACTOR_AUTH_ENABLED}
+  audit_logging: true
+  
+external_services:
+  email:
+    provider: "sendgrid"
+    api_key: "${SENDGRID_API_KEY}"
+    from: "${EMAIL_FROM}"
+  
+  storage:
+    provider: "s3"
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    access_key: "${S3_ACCESS_KEY}"
+    secret_key: "${S3_SECRET_KEY}"
+    
+logging:
+  level: "info"
+  format: "json"
+  console: true
+  file: true
+  file_path: "/var/log/app.log"
+  
+monitoring:
+  enabled: true
+  metrics_endpoint: "/metrics"
+  health_endpoint: "/health"
+  
+cache:
+  provider: "redis"
+  url: "${REDIS_URL}"
+  ttl: 3600

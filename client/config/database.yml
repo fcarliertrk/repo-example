@@ -1,0 +1,47 @@
+development:
+  adapter: postgresql
+  host: localhost
+  port: 5432
+  database: example_web_app_development
+  username: postgres
+  password: password
+  pool: 5
+  timeout: 5000
+  ssl: false
+
+test:
+  adapter: postgresql
+  host: localhost
+  port: 5432
+  database: example_web_app_test
+  username: postgres
+  password: password
+  pool: 5
+  timeout: 5000
+  ssl: false
+
+staging:
+  adapter: postgresql
+  host: ${DATABASE_HOST}
+  port: ${DATABASE_PORT}
+  database: ${DATABASE_NAME}
+  username: ${DATABASE_USER}
+  password: ${DATABASE_PASSWORD}
+  pool: 10
+  timeout: 5000
+  ssl: true
+  ssl_ca: ${DATABASE_SSL_CA}
+
+production:
+  adapter: postgresql
+  host: ${DATABASE_HOST}
+  port: ${DATABASE_PORT}
+  database: ${DATABASE_NAME}
+  username: ${DATABASE_USER}
+  password: ${DATABASE_PASSWORD}
+  pool: 20
+  timeout: 5000
+  ssl: true
+  ssl_ca: ${DATABASE_SSL_CA}
+  connection_retry_attempts: 3
+  connection_retry_delay: 1000
