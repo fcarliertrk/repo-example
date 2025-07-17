@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Button from '../common/Button';
 import { loginUser } from '../../services/authService';
 import { validateEmail, validatePassword } from '../../utils/validators';
+import { User } from '../../types/user';
 
 interface LoginFormProps {
-  onLogin?: (user: any) => void;
+  onLogin?: (user: User) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {

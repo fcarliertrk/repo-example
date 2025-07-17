@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:prod": "vite build",
+    "build": "npm run test && npm run lint && vite build",
+    "build:prod": "npm run build",
     "preview": "vite preview",
     "test": "vitest",
     "test:unit": "vitest run tests/unit",

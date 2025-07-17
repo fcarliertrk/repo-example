@@ -12,7 +12,7 @@ export const loginUser = async (email: string, password: string): Promise<User> 
     }
     
     return response.data.user;
-  } catch (error) {
+  } catch {
     throw new Error('Login failed. Please check your credentials.');
   }
 };
@@ -31,7 +31,7 @@ export const getCurrentUser = async (): Promise<User | null> => {
   try {
     const response = await apiClient.get<User>('/auth/me');
     return response.data;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -50,7 +50,7 @@ export const registerUser = async (userData: {
     }
     
     return response.data.user;
-  } catch (error) {
+  } catch {
     throw new Error('Registration failed. Please try again.');
   }
 };
