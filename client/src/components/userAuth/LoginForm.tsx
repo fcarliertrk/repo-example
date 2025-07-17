@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import Button from '../common/Button';
 import { loginUser } from '../../services/authService';
 import { validateEmail, validatePassword } from '../../utils/validators';
-import { User } from '../../types/user';
+import { type User } from '../../types/user';
 
 interface LoginFormProps {
   onLogin?: (user: User) => void;
+  onCancel?: () => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onCancel }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -67,9 +68,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         />
       </div>
       
-      <Button type="submit" disabled={loading}>
-        {loading ? 'Logging in...' : 'Login'}
-      </Button>
+      <div className="button-group">
+        {onCancel && (
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </Button>
+      </div>
     </form>
   );
 };

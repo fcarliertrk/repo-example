@@ -2,6 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Login E2E Tests', () => {
   test.beforeEach(async ({ page }) => {
+    // Mock any API calls that might happen on startup
+    await page.route('**/api/**', async route => {
+      // Default fallback for any unmocked API calls
+      await route.fulfill({
+        status: 404,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Not Found' }),
+      });
+    });
+    
     await page.goto('/');
   });
 
@@ -63,6 +73,9 @@ test.describe('Login E2E Tests', () => {
   });
 
   test('should show loading state during login', async ({ page }) => {
+    // Override the default API mock for this specific test
+    await page.unroute('**/api/**');
+    
     // Mock API to delay response
     await page.route('**/api/auth/login', async route => {
       await page.waitForTimeout(1000);
@@ -96,6 +109,9 @@ test.describe('Login E2E Tests', () => {
   });
 
   test('should display user dashboard after successful login', async ({ page }) => {
+    // Override the default API mock for this specific test
+    await page.unroute('**/api/**');
+    
     // Mock successful login response
     await page.route('**/api/auth/login', async route => {
       await route.fulfill({
@@ -131,6 +147,9 @@ test.describe('Login E2E Tests', () => {
   });
 
   test('should show error message on login failure', async ({ page }) => {
+    // Override the default API mock for this specific test
+    await page.unroute('**/api/**');
+    
     // Mock failed login response
     await page.route('**/api/auth/login', async route => {
       await route.fulfill({
@@ -152,6 +171,9 @@ test.describe('Login E2E Tests', () => {
   });
 
   test('should return to welcome screen after logout', async ({ page }) => {
+    // Override the default API mock for this specific test
+    await page.unroute('**/api/**');
+    
     // Mock successful login response
     await page.route('**/api/auth/login', async route => {
       await route.fulfill({

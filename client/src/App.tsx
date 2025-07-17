@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { LoginForm } from './components/userAuth'
 import { Button } from './components/common'
-import { User } from './types/user'
+import { type User } from './types/user'
 import './App.css'
 
 function App() {
@@ -37,16 +37,11 @@ function App() {
         ) : (
           <div className="auth-section">
             {showLogin ? (
-              <div>
-                <LoginForm onLogin={handleLogin} />
-                <Button 
-                  onClick={() => setShowLogin(false)} 
-                  variant="secondary"
-                  style={{ marginTop: '1rem' }}
-                >
-                  Cancel
-                </Button>
-              </div>
+              <LoginForm 
+                onLogin={handleLogin} 
+                onCancel={() => setShowLogin(false)}
+              />
+              
             ) : (
               <div className="welcome-section">
                 <h2>Welcome to Our Application</h2>
