@@ -4,6 +4,25 @@ This is a complete example repository structure implementing the best practices 
 
 **Built with Vite + React + TypeScript** for modern, fast development experience with instant HMR and optimized production builds.
 
+## Table of Contents
+
+- [Repository Structure](#repository-structure)
+- [File Contents](#file-contents)
+  - [.github/CODEOWNERS](#githubcodeowners)
+  - [.github/workflows/ci.yml](#githubworkflowsciyml)
+  - [.github/workflows/deploy.yml](#githubworkflowsdeployyml)
+  - [.github/ISSUE_TEMPLATE/bug_report.md](#githubissue_templatebug_reportmd)
+  - [.github/ISSUE_TEMPLATE/feature_request.md](#githubissue_templatefeature_requestmd)
+  - [.github/ISSUE_TEMPLATE/config.yml](#githubissue_templateconfigyml)
+  - [.github/pull_request_template.md](#githubpull_request_templatemd)
+  - [client/README.md](#clientreadmemd)
+  - [client/.env.example](#clientenvexample)
+  - [.gitignore](#gitignore)
+  - [client/package.json](#clientpackagejson)
+  - [client/CHANGELOG.md](#clientchangelogmd)
+- [Branch Protection Rules Configuration](#branch-protection-rules-configuration)
+- [Standard Branch Naming Examples](#standard-branch-naming-examples)
+
 ## Repository Structure
 
 ```
