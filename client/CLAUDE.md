@@ -9,7 +9,7 @@ This is a modern web application built with **Vite + React + TypeScript** that d
 ## Key Technologies
 
 - **Frontend**: React 19, TypeScript, Vite
-- **Testing**: Jest, React Testing Library, Playwright
+- **Testing**: Vitest, React Testing Library, Playwright
 - **Linting**: ESLint, TypeScript ESLint
 - **Build**: Vite with TypeScript compilation
 - **CI/CD**: GitHub Actions
@@ -29,6 +29,9 @@ npm run test         # Run all tests
 npm run test:unit    # Run unit tests only
 npm run test:integration  # Run integration tests
 npm run test:e2e     # Run end-to-end tests
+npm run test:watch   # Run tests in watch mode
+npm run test:ui      # Run tests with UI
+npm run test:coverage # Run tests with coverage
 ```
 
 ### Code Quality
@@ -73,8 +76,10 @@ scripts/
 - **package.json**: Project configuration and dependencies
 - **tsconfig.json**: TypeScript configuration
 - **vite.config.ts**: Vite build configuration
+- **vitest.config.ts**: Vitest test configuration
 - **eslint.config.js**: ESLint configuration
 - **.env.example**: Environment variables template
+- **tests/setup.ts**: Test setup and configuration
 
 ## Development Workflow
 
@@ -102,8 +107,9 @@ scripts/
 
 ### Test Issues
 - Ensure test files are in the correct directories
-- Mock external dependencies properly
+- Mock external dependencies properly with `vi.mock()`
 - Use React Testing Library best practices
+- Configure jsdom environment properly for React testing
 
 ### Environment Issues
 - Copy `.env.example` to `.env` and configure variables
@@ -162,9 +168,10 @@ The application is deployed as static files and can be served by any web server 
 - `vite`: Build tool and development server
 - `typescript`: Type checking and compilation
 - `eslint`: Code linting
-- `jest`: Testing framework
+- `vitest`: Testing framework with native Vite integration
 - `@testing-library/react`: React testing utilities
 - `playwright`: E2E testing framework
+- `jsdom`: DOM environment for testing
 
 ## Maintenance
 

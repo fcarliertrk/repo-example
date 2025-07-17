@@ -1,25 +1,24 @@
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { loginUser, logoutUser, getCurrentUser, registerUser, isAuthenticated } from '../../../src/services/authService';
 import apiClient from '../../../src/services/apiClient';
 
 // Mock the apiClient
-jest.mock('../../../src/services/apiClient');
-const mockedApiClient = apiClient as jest.Mocked<typeof apiClient>;
-
-// Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-};
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+vi.mock('../../../src/services/apiClient');
+const mockedApiClient = apiClient as any;
 
 describe('AuthService', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    localStorageMock.getItem.mockClear();
-    localStorageMock.setItem.mockClear();
-    localStorageMock.removeItem.mockClear();
+    vi.clearAllMocks();
+    vi.mocked(window.localStorage.getItem).mockClear();
+    vi.mocked(window.localStorage.setItem).mockClear();
+    vi.mocked(window.localStorage.removeItem).mockClear();
+    
+    // Mock console.error to prevent noise in test output
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe('loginUser', () => {
@@ -53,7 +52,7 @@ describe('AuthService', () => {
         email: 'test@example.com',
         password: 'password',
       });
-      expect(localStorageMock.setItem).toHaveBeenCalledWith('authToken', 'mock-jwt-token');
+      expect(window.localStorage.setItem).toHaveBeenCalledWith('authToken', 'mock-jwt-token');
       expect(result).toEqual(mockUser);
     });
 
@@ -73,7 +72,7 @@ describe('AuthService', () => {
       await logoutUser();
 
       expect(mockedApiClient.post).toHaveBeenCalledWith('/auth/logout');
-      expect(localStorageMock.removeItem).toHaveBeenCalledWith('authToken');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('authToken');
     });
 
     test('should remove token even if logout API fails', async () => {
@@ -81,7 +80,7 @@ describe('AuthService', () => {
 
       await logoutUser();
 
-      expect(localStorageMock.removeItem).toHaveBeenCalledWith('authToken');
+      expect(window.localStorage.removeItem).toHaveBeenCalledWith('authToken');
     });
   });
 
@@ -121,21 +120,21 @@ describe('AuthService', () => {
 
   describe('isAuthenticated', () => {
     test('should return true if token exists', () => {
-      localStorageMock.getItem.mockReturnValue('mock-token');
+      vi.mocked(window.localStorage.getItem).mockReturnValue('mock-token');
 
       const result = isAuthenticated();
 
       expect(result).toBe(true);
-      expect(localStorageMock.getItem).toHaveBeenCalledWith('authToken');
+      expect(window.localStorage.getItem).toHaveBeenCalledWith('authToken');
     });
 
     test('should return false if token does not exist', () => {
-      localStorageMock.getItem.mockReturnValue(null);
+      vi.mocked(window.localStorage.getItem).mockReturnValue(null);
 
       const result = isAuthenticated();
 
       expect(result).toBe(false);
-      expect(localStorageMock.getItem).toHaveBeenCalledWith('authToken');
+      expect(window.localStorage.getItem).toHaveBeenCalledWith('authToken');
     });
   });
 });
